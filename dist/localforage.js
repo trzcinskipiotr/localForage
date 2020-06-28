@@ -1580,7 +1580,11 @@ function serialize(value, callback) {
         fileReader.readAsArrayBuffer(value);
     } else {
         try {
-            callback(JSON.stringify(value));
+            if ((typeof(value) === 'string') && (value.startsWith('__lfsc__:blob'))) {
+              callback(value);
+            } else {
+              callback(JSON.stringify(value));
+            }
         } catch (e) {
             console.error("Couldn't convert value into a JSON string: ", value);
 
